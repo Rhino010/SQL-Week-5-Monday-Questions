@@ -16,7 +16,9 @@ select film_id , count(film_id)
 from inventory
 group by film_id
 order by count desc;
---Answer film_id
+--Answer: Both stores have a total of 72 different titles with 8 in inventory
+
+select * from inventory;
 
 --4. How many customers have the last name 'William'?
 select first_name , count(first_name)
@@ -46,22 +48,30 @@ order by count desc;
 --Answer: film_id 508 has the most actors in it.
 
 --8. From store_id 1, how many customers have a last name ending with 'es'? (use customer table)
-select last_name, count(last_name)
+select last_name, store_id
 from customer
-where last_name like '%es'
-group by last_name;
---Answer: 
+where last_name like '%es' and store_id = 1;
+--Answer: There are 13 people with a last name that ends in 'es' from store_id 1.
 
 
 --9. How many payment amounts(4.99,5.99, etc.) had a number or rentals above 250 for customers with
 --id's between 380 and 430? (use group by and having > 250)
-select amount, count(distinct amount)
+select amount, customer_id
 from payment
-where customer_id >= 380 and customer_id <= 430
-group by amount;
+where customer_id between 380 and 430
+group by amount, customer_id
+having count(amount) > 250;
+--Answer: There are none.
 
-select * from payment;
 
+--10. Within the film table, how many rating categories are there? And what rating has the most movies total?
+select count(distinct rating)
+from film;
 
+select count(distinct film), rating
+from film
+group by distinct rating
+order by count desc;
 
+--Answer: There are 5 ratings categories and the rating of --- has the most movies total. PG-13 has the most movie titles
 
